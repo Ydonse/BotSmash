@@ -182,6 +182,7 @@ async function chooseStage(user1, user2, args, message)
   if (levelsRemaining === 1)
   {
     message.channel.send(`${user1} ${user2} Que le match commence !`, {files : [allImages[levels[0] - 1]]});
+    .catch((error) => {console.log(error)} );
   }
 }
 
