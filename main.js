@@ -202,14 +202,14 @@ client.on('message', async message => {
     const args = message.content.slice(prefix.length).trim().split(/ +/);
     const command = args.shift().toLowerCase();
 
-    if (message.mentions.users.size != 2)
+    if (message.mentions.users.size != 2 || command.toLowerCase() != "stage")
       sendUsage(message);
     else
     {
       let user1 = getUserFromMention(args[0]);
       let user2 = getUserFromMention(args[1]);
 
-      if (!user1 || !user2)
+      if (!user1 || !user2 )
         sendUsage(message);
       else if(user1 != message.author && user2 != message.author)
         sendUsage(message);
