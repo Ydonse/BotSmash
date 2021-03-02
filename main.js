@@ -188,7 +188,7 @@ async function chooseStage(user1, user2, args, message)
 
 client.once('ready', async () =>
 {
-  //client.user.setAvatar('./stage.jpg');
+  console.log(client.guilds.size);
   client.user.setActivity('!stage', { type: 'PLAYING' });
   const timestamp = Date.now();
   images = await Promise.all(Object.values(allImages).map(element => Canvas.loadImage(element)));
