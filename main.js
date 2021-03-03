@@ -75,7 +75,7 @@ function GetMessageToSend(userWanted, levelsNbToBan)
 {
   //const messageGenerique = `**Envoie le numero du stage que tu veux bannir, ${levelsNbToBan[0]} restants**`;
   if (levelsNbToBan[0] == 1 && levelsNbToBan.length == 1)
-    return `${userWanted} **Bannie le dernier stage**`;
+    return `${userWanted} **Bannis le dernier stage**`;
   else
     return `${userWanted} **Envoie le/les numero du stage que tu veux bannir, ${levelsNbToBan[0]} restants**`;
 }
