@@ -1,4 +1,3 @@
-//const config = require('./config.json');
 const Discord = require('discord.js');
 const Canvas = require('canvas');
 const client = new Discord.Client();
@@ -15,19 +14,12 @@ const allImages = {
   "7" : "http://www.donsefactory.com/wp-content/uploads/2021/02/SP2-2.jpg",
   "8" : "http://www.donsefactory.com/wp-content/uploads/2021/02/Lylat-2.jpg"
 };
-//const prefix = config.prefix;
 
 let images;
 let currentUsers = [];
 
 const filter = response => {return levels.includes(response.content) && (response.author === user1 || response.author === user2)};
 
-
-function clearAll()
-{
-  levels = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
-  levelsRemaining = 9;
-}
 function getUserFromMention(mention)
 {
   if (!mention) return;
@@ -73,7 +65,6 @@ function sendUsage(message)
 
 function GetMessageToSend(userWanted, levelsNbToBan)
 {
-  //const messageGenerique = `**Envoie le numero du stage que tu veux bannir, ${levelsNbToBan[0]} restants**`;
   if (levelsNbToBan[0] == 1 && levelsNbToBan.length == 1)
     return `${userWanted} **Bannis le dernier stage**`;
   else
@@ -96,8 +87,6 @@ async function drawImages(ctx, images, canvas, levelsRemaining, levels)
 
   ctx.fillStyle = "#ffffff";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  //ctx.strokeStyle = '#74037b';
-  //ctx.strokeRect(0, 0, canvas.width, canvas.height);
 
   if (levels.includes("1")) {ctx.drawImage(images[0], espacementX, espacementY, sizex, sizey);}
   if (levels.includes("2")) {ctx.drawImage(images[1], espacementX * 2 + sizex, espacementY, sizex, sizey);}
@@ -123,13 +112,11 @@ async function chooseStage(user1, user2, args, message)
 
   if (args.length > 2 && (["2", "3", "tour2", "tour3"].includes(args[2].toLowerCase())))
   {
-    //console.log("tour2");
     tour = 2;
     levelsNbToBan = [3, 5];
   }
   else
   {
-    //console.log("tour1");
     tour = 1;
     levelsNbToBan = [3, 4, 1];
   }
@@ -141,27 +128,17 @@ async function chooseStage(user1, user2, args, message)
       image1 = {files : [allStages]};
     else
     {
-      const timestamp2 = Date.now();
       await drawImages(ctx, images, canvas, levelsRemaining, levels);
-      console.log("drawImages. Time : " + ((timestamp2 - Date.now()) / 1000) + "s");
-
-      const timestamp1 = Date.now();
       image1 = new Discord.MessageAttachment(canvas.toBuffer(), 'Remaining_Stages.jpg');
-      console.log("toBuffer. Time : " + ((timestamp1 - Date.now()) / 1000) + "s");
     }
 
-
-    const timestamp = Date.now();
     await message.channel.send(GetMessageToSend(userWanted, levelsNbToBan), image1)
-    //await message.channel.send(GetMessageToSend(userWanted, levelsNbToBan))
       .then(async () => {
-        console.log("message sent. Time : " + ((timestamp - Date.now()) / 1000) + "s");
         let userMessage = await message.channel.awaitMessages((response) => checkAnswers(response, levels, userWanted), {max: 1, time: 60000, errors: ['time']})
           .then(collected => {
             reponses = collected.first().content.trim().split(/ +/);
             if (reponses.length > levelsNbToBan[0])
               reponses.splice(levelsNbToBan[0], reponses.length - levelsNbToBan[0]);
-            //console.log(levelsNbToBan);
             levels = levels.filter(word => !reponses.includes(word));
             levelsRemaining = levels.length;
             levelsNbToBan[0] -= reponses.length;
@@ -188,11 +165,9 @@ async function chooseStage(user1, user2, args, message)
 
 client.once('ready', async () =>
 {
-  console.log(client.guilds.cache.size);
+  console.log("Nb de serveurs utilisant le bot : " + client.guilds.cache.size);
   client.user.setActivity('!stage', { type: 'PLAYING' });
-  const timestamp = Date.now();
   images = await Promise.all(Object.values(allImages).map(element => Canvas.loadImage(element)));
-  console.log("images chargées. Time : " + ((timestamp - Date.now()) / 1000) + "s");
 });
 
 client.on('message', async message => {
@@ -232,4 +207,3 @@ client.on('message', async message => {
 });
 
 client.login(process.env.BOT_TOKEN);
-//client.login(config.token);
