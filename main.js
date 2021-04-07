@@ -1,4 +1,5 @@
 const Discord = require("discord.js");
+const Stage = require("./commands/stage");
 const Canvas = require("canvas");
 const client = new Discord.Client();
 const prefix = process.env.PREFIX;
@@ -17,13 +18,6 @@ const allImages = {
 
 let images;
 let currentUsers = [];
-
-const filter = (response) => {
-  return (
-    levels.includes(response.content) &&
-    (response.author === user1 || response.author === user2)
-  );
-};
 
 function getUserFromMention(mention) {
   if (!mention) return;
@@ -238,38 +232,41 @@ client.once("ready", async () => {
 });
 
 client.on("message", async (message) => {
-  if (!message.content.startsWith(prefix) || message.author.bot) return;
+  if (Stage.match(message)) {
 
-  const args = message.content.slice(prefix.length).trim().split(/ +/);
-  const command = args.shift().toLowerCase();
+    const args = message.content.slice(prefix.length).trim().split(/ +/);
+    const command = args.shift().toLowerCase();
 
-  if (message.mentions.users.size != 2 || command.toLowerCase() != "stage")
-    sendUsage(message);
-  else {
-    let user1 = getUserFromMention(args[0]);
-    let user2 = getUserFromMention(args[1]);
-
-    if (!user1 || !user2) sendUsage(message);
-    else if (user1 != message.author && user2 != message.author)
+    if (message.mentions.users.size != 2 || command.toLowerCase() != "stage")
       sendUsage(message);
     else {
-      if (currentUsers.includes(args[0]))
-        return message.reply(
-          `${user1} est déja en train de choisir un terrain`
-        );
-      else if (currentUsers.includes(args[1]))
-        return message.reply(
-          `${user2} est déja en train de choisir un terrain`
-        );
+      let user1 = getUserFromMention(args[0]);
+      let user2 = getUserFromMention(args[1]);
+
+      if (!user1 || !user2) sendUsage(message);
+      else if (user1 != message.author && user2 != message.author)
+        sendUsage(message);
       else {
-        currentUsers.push(args[0], args[1]);
-        await chooseStage(user1, user2, args, message);
-        currentUsers = currentUsers.filter(function (value, index, arr) {
-          return value != args[0] && value != args[1];
-        });
+        if (currentUsers.includes(args[0]))
+          return message.reply(
+            `${user1} est déja en train de choisir un terrain`
+          );
+        else if (currentUsers.includes(args[1]))
+          return message.reply(
+            `${user2} est déja en train de choisir un terrain`
+          );
+        else {
+          currentUsers.push(args[0], args[1]);
+          await chooseStage(user1, user2, args, message)
+          .catch((error) =>
+          console.log(error)
+          )};
+          currentUsers = currentUsers.filter(function (value, index, arr) {
+            return value != args[0] && value != args[1];
+          });
+        }
       }
     }
-  }
 });
 
 client.login(process.env.BOT_TOKEN);
