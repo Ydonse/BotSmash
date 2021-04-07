@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const Stage = require("./commands/stage");
+
 const Canvas = require("canvas");
 const client = new Discord.Client();
 const prefix = process.env.PREFIX;
@@ -225,7 +226,7 @@ async function chooseStage(user1, user2, args, message) {
 
 client.once("ready", async () => {
   console.log("Nb de serveurs utilisant le bot : " + client.guilds.cache.size);
-  console.log("Stage = " + Stage);
+  console.log("Stage = ");
   client.user.setActivity("!stage", { type: "PLAYING" });
   
   images = await Promise.all(
