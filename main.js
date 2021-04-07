@@ -234,6 +234,11 @@ client.once("ready", async () => {
 });
 
 client.on("message", async (message) => {
+  if (!Stage)
+  {
+    console.log ("probleme avec Stage");
+    return;
+  }
   if (Stage.match(message)) {
 
     const args = message.content.slice(prefix.length).trim().split(/ +/);
