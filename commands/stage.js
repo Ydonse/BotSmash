@@ -1,8 +1,8 @@
 const prefix = process.env.PREFIX;
 
-export default class Stage {
+module.exports = class Stage {
     
-    match(message) {
+    static match(message) {
         return message.content.startsWith(prefix);
     }
 }
