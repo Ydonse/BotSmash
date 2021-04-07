@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const Stage = require("./commands/stage");
+const Stage = require("./commands/stage").default;
 const Canvas = require("canvas");
 const client = new Discord.Client();
 const prefix = process.env.PREFIX;
