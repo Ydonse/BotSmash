@@ -225,8 +225,9 @@ async function chooseStage(user1, user2, args, message) {
 
 client.once("ready", async () => {
   console.log("Nb de serveurs utilisant le bot : " + client.guilds.cache.size);
-  client.user.setActivity("!stage", { type: "PLAYING" });
   console.log("Stage = " + Stage);
+  client.user.setActivity("!stage", { type: "PLAYING" });
+  
   images = await Promise.all(
     Object.values(allImages).map((element) => Canvas.loadImage(element))
   );
