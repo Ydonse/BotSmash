@@ -2,9 +2,7 @@ const Command = require("./commands");
 const User = require("../stage/user");
 const Selector = require("../stage/selector");
 const Msg = require("../stage/messages");
-const { checkUsersValidity } = require("../stage/user");
-// const prefix = process.env.PREFIX;
-const prefix = "!";
+const prefix = process.env.PREFIX;
 const cmdName = "stage";
 let currentUsers = [];
 
@@ -23,8 +21,8 @@ module.exports = class Stage extends Command {
     let user1 = User.fromMention(args[0]);
     let user2 = User.fromMention(args[1]);
     if (
-      !User.isUserValid(message, user1, currentUsers) ||
-      !User.isUserValid(message, user2, currentUsers)
+      User.isUserValid(message, user1, currentUsers) !== true ||
+      User.isUserValid(message, user2, currentUsers) !== true
     )
       return false;
     else if (user1 != message.author && user2 != message.author)

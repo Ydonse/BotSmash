@@ -1,7 +1,7 @@
-const prefix = "!";
+const prefix = process.env.PREFIX;
 const cmdName = "stage";
 
-module.exports = class Messages {
+module.exports = class MSG {
   static usage(message) {
     message.reply(
       `usage : \`${prefix}${cmdName} @participant1 @participant2 [option : tour2]\`\n For any questions ask Steyo`
@@ -31,15 +31,20 @@ module.exports = class Messages {
   }
 
   static userOccupied(user) {
-    let fr = this.checkLanguage(user1);
+    let fr = this.checkLanguage(user);
     return fr ? `${user} est déja en train de choisir un terrain` : `${user} is already choosing a stage`;
   }
-  static checkLanguage(user) {
+  static checkLanguage(user) { 
     let fr;
     if (!user.locale)
       fr = true;
     else
       fr = user.locale.includes("en") ? false : true;
     return fr;
+  }
+
+  static imagesLoading(message) {
+    let fr = this.checkLanguage(message.author);
+    message.reply( fr ? "StageSelector bientôt prêt, veuillez patienter" : "StageSelector almost ready, please wait");
   }
 };

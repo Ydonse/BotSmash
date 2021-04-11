@@ -21,7 +21,7 @@ class IMG {
       Object.values(allImages).map((element) => Canvas.loadImage(element))
     ).catch((error) => {
       return error;
-    });
+    }).then(console.log("bot ready"));
   }
 
   static getImages() {

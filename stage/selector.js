@@ -12,7 +12,7 @@ module.exports = class Selector {
     let levelsRemaining = 9;
     let userWanted;
     let reponses;
-    let levelsNbToBan = round === 1 ? [3, 5] : [3, 4, 1];
+    let levelsNbToBan = round === 1 ? [3, 4, 1] : [3, 5];
     const canvas = Canvas.createCanvas(1000, 700);
 
     while (levelsRemaining > 1) {
@@ -60,13 +60,13 @@ module.exports = class Selector {
   static checkAnswers(response, levels, userWanted) {
     //check if answers are numbers
     if (response.author != userWanted) return false;
-    let reponses = response.content.trim().split(/ +/);
+    let reponses = Array.from( new Set(response.content.trim().split(/ +/)));
     return reponses.every((t) => levels.includes(t));
   }
 
   static filterStageNumbers(collected, levelsNbToBan) {
     //remove excess answers
-    let reponses = collected.first().content.trim().split(/ +/);
+    let reponses = Array.from(new Set(collected.first().content.trim().split(/ +/)));
     if (reponses.length > levelsNbToBan[0])
       reponses.splice(levelsNbToBan[0], reponses.length - levelsNbToBan[0]);
     return reponses;
