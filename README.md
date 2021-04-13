@@ -7,6 +7,7 @@ Ce bot Discord dédié aux tournois Super Smash Bros Ultimate permet à deux uti
 - Manipulation de Canvas pour mettre à jour visuellement la liste des terrains
 - Utilisations de fonctions asynchrones
 - Fonctions callback et promises
+- Dictionnaire de clés pour gérer la localisation
 
 ## Comment utiliser ce bot
 1) Ajouter le bot à votre serveur : https://discord.com/api/oauth2/authorize?client_id=812766924329058344&permissions=120832&scope=bot
