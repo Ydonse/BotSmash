@@ -6,7 +6,7 @@ const Canvas = require("canvas");
 const { allStages, allImages, IMG } = require("./images");
 
 module.exports = class Selector {
-  static async chooseStage(user1, user2, round, message) {
+  static async chooseStage(users, round, message) {
     //allows users to ban stages until the good one is chosen
     let levels = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
     let levelsRemaining = 9;
@@ -17,9 +17,10 @@ module.exports = class Selector {
 
     while (levelsRemaining > 1) {
       let attachment;
-      userWanted = User.getUserWanted(user1, user2, round, levelsRemaining);
-      if (levelsRemaining == 9) attachment = { files: [allStages] };
-      else {
+      userWanted = User.getUserWanted(users, round, levelsRemaining);
+      if (levelsRemaining == 9) {
+        attachment = { files: [allStages] };
+      } else {
         await CV.drawImages(IMG.getImages(), canvas, levelsRemaining, levels);
         attachment = new Discord.MessageAttachment(
           canvas.toBuffer(),
@@ -42,7 +43,7 @@ module.exports = class Selector {
               if (levelsNbToBan[0] == 0) levelsNbToBan.shift();
             })
             .catch((error) => {
-              message.channel.send(`${user1} ${user2} timeout`);
+              message.channel.send(`${users[0]} ${users[1]} timeout`);
               console.log(error);
               levelsRemaining = 0;
             });
@@ -53,20 +54,22 @@ module.exports = class Selector {
         });
     }
     if (levelsRemaining === 1) {
-      MSG.sendFinalStage(message, levels, allImages, user1, user2);
+      MSG.sendFinalStage(message, levels, allImages, users);
     }
   }
 
   static checkAnswers(response, levels, userWanted) {
     //check if answers are numbers
     if (response.author != userWanted) return false;
-    let reponses = Array.from( new Set(response.content.trim().split(/ +/)));
+    let reponses = Array.from(new Set(response.content.trim().split(/ +/)));
     return reponses.every((t) => levels.includes(t));
   }
 
   static filterStageNumbers(collected, levelsNbToBan) {
     //remove excess answers
-    let reponses = Array.from(new Set(collected.first().content.trim().split(/ +/)));
+    let reponses = Array.from(
+      new Set(collected.first().content.trim().split(/ +/))
+    );
     if (reponses.length > levelsNbToBan[0])
       reponses.splice(levelsNbToBan[0], reponses.length - levelsNbToBan[0]);
     return reponses;

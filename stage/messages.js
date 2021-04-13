@@ -1,5 +1,26 @@
+require("dotenv").config();
 const prefix = process.env.PREFIX;
-const cmdName = "stage";
+const cmdName = "banstage";
+const localisation = {
+  fr: {
+    banLast: "${userWanted} **Bannis le dernier stage**",
+    ban:
+      "${userWanted} **Envoie le/les numero du stage que tu veux bannir, ${remaining} restants**",
+    finalStage: "**${user1} ${user2} Que le match commence !**",
+    fighters: "Seuls les combattants mentionnés peuvent saisir la commande",
+    loading: "StageSelector bientôt prêt, veuillez patienter",
+    occupied: "${user} est déja en train de choisir un terrain",
+  },
+  en: {
+    banLast: "${userWanted} **Ban the last stage**",
+    ban:
+      "${userWanted} **Send the stage's number/s you want to ban, ${remaining} left**",
+    finalStage: "**${user1} ${user2} let the match begin!**",
+    fighters: "Only mentionned fighters can use the command",
+    loading: "StageSelector almost ready, please wait",
+    occupied: "${user} is already choosing a stage",
+  },
+};
 
 module.exports = class MSG {
   static usage(message) {
@@ -8,19 +29,29 @@ module.exports = class MSG {
     );
   }
   static getMessageToSend(userWanted, levelsNbToBan) {
-    let fr = this.checkLanguage(userWanted);
+    let language = this.checkLanguage(userWanted);
     if (levelsNbToBan[0] == 1 && levelsNbToBan.length == 1)
-      return fr ? `${userWanted} **Bannis le dernier stage**` :
-                  `${userWanted} **Ban the last stage**`;
+      return localisation[language].banLast.replace(
+        "${userWanted}",
+        userWanted
+      );
     else
-      return fr ? `${userWanted} **Envoie le/les numero du stage que tu veux bannir, ${levelsNbToBan[0]} restants**` : 
-                  `${userWanted} **Send the stage's number/s you want to ban, ${levelsNbToBan[0]} left**`;
+      return localisation[language].ban
+        .replace("${userWanted}", userWanted)
+        .replace("${remaining}", levelsNbToBan[0]);
   }
 
-  static sendFinalStage(message, levels, allImages, user1, user2) {
-    let fr = this.checkLanguage(user1) && this.checkLanguage(user2);
-    let texte = fr ? `${user1} ${user2} Que le match commence !` : 
-                   `${user1} ${user2} let the match begin!`;
+  static sendFinalStage(message, levels, allImages, users) {
+    let language;
+    if (
+      this.checkLanguage(users[0]) === "fr" &&
+      this.checkLanguage(users[1]) === "fr"
+    )
+      language = "fr";
+    else language = "en";
+    const text = localisation[langage].finalStage
+      .replace("{${user1}", users[0])
+      .replace("{${user2}", users[1]);
     message.channel
       .send(texte, {
         files: [allImages[levels[0] - 1]],
@@ -31,20 +62,23 @@ module.exports = class MSG {
   }
 
   static userOccupied(user) {
-    let fr = this.checkLanguage(user);
-    return fr ? `${user} est déja en train de choisir un terrain` : `${user} is already choosing a stage`;
+    let language = this.checkLanguage(user);
+    return localisation[language].occupied.replace("${user}", user);
   }
-  static checkLanguage(user) { 
-    let fr;
-    if (!user.locale)
-      fr = true;
-    else
-      fr = user.locale.includes("en") ? false : true;
-    return fr;
+
+  static fighterOnly(message) {
+    let language = this.checkLanguage(message.author);
+    return localisation[language].fighters;
+  }
+  static checkLanguage(user) {
+    let language;
+    language = user.locale ?? "fr";
+    language = user.locale?.includes("en") ? "en" : "fr";
+    return language;
   }
 
   static imagesLoading(message) {
-    let fr = this.checkLanguage(message.author);
-    message.reply( fr ? "StageSelector bientôt prêt, veuillez patienter" : "StageSelector almost ready, please wait");
+    let language = this.checkLanguage(message.author);
+    message.reply(localisation[language].occupied);
   }
 };

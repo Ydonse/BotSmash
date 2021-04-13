@@ -1,9 +1,10 @@
+require("dotenv").config();
 const Command = require("./commands");
 const User = require("../stage/user");
 const Selector = require("../stage/selector");
 const Msg = require("../stage/messages");
 const prefix = process.env.PREFIX;
-const cmdName = "stage";
+const cmdName = "banstage";
 let currentUsers = [];
 
 module.exports = class Stage extends Command {
@@ -13,34 +14,34 @@ module.exports = class Stage extends Command {
   }
 
   static async action(message) {
-    if (!User.checkUsersnb(message)) return Msg.usage(message);
     const args = message.content
       .slice(prefix.length + cmdName.length)
       .trim()
       .split(/ +/);
-    let user1 = User.fromMention(args[0]);
-    let user2 = User.fromMention(args[1]);
-    if (
-      User.isUserValid(message, user1, currentUsers) !== true ||
-      User.isUserValid(message, user2, currentUsers) !== true
-    )
-      return false;
-    else if (user1 != message.author && user2 != message.author)
-      return Msg.usage(message);
-    currentUsers.push(user1, user2);
+    let users = [User.fromMention(args[0]), User.fromMention(args[1])];
+    if (!this.validateCommand(message, users)) return;
+    currentUsers.push(users[0], users[1]);
     await Selector.chooseStage(
-      user1,
-      user2,
+      users,
       this.getRound(args),
       message
     ).catch((error) => console.log(error));
     currentUsers = currentUsers.filter(function (value) {
-      return value != user1 && value != user2;
+      return value != users[0] && value != users[1];
     });
   }
 
+  static validateCommand(message, users) {
+    if (!User.checkUsersNb(message)) {
+      Msg.usage(message);
+      return false;
+    }
+    if (!User.areUsersValid(message, users, currentUsers)) return false;
+    return true;
+  }
+
   static checkCommand(message) {
-    return message.content.startsWith(prefix + cmdName);
+    return message.content.toLowerCase().startsWith(prefix + cmdName);
   }
 
   static getRound(args) {
