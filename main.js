@@ -8,7 +8,7 @@ const token = process.env.TOKEN;
 client.once("ready", async () => {
   console.log("Nb de serveurs utilisant le bot : " + client.guilds.cache.size);
   client.guilds.cache.forEach((guild) => {
-    console.log(guild);
+    console.log(guild.name);
   });
   console.log("Servers utilisant le bot : \n" + client.guilds.cache.size);
   client.user.setActivity("!banstage", { type: "PLAYING" });
