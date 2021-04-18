@@ -9,7 +9,7 @@ module.exports = class DrawCanvas {
     allLevelsNb
   ) {
     let sizex = this.getImageWidth(levels, canvas.width);
-    let sizey = this.getImageHeight(levels, canvasY);
+    let sizey = this.getImageHeight(levels, canvas.height);
     let espacementX = 25;
     let espacementY = 20;
     const ctx = canvas.getContext("2d");
