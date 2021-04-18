@@ -8,8 +8,8 @@ module.exports = class DrawCanvas {
     levels,
     allLevelsNb
   ) {
-    let sizex = this.getImageWidth(levels);
-    let sizey = this.getImageHeight(levels);
+    let sizex = this.getImageWidth(levels, canvas.width);
+    let sizey = this.getImageHeight(levels, canvasY);
     let espacementX = 25;
     let espacementY = 20;
     const ctx = canvas.getContext("2d");
@@ -49,41 +49,58 @@ module.exports = class DrawCanvas {
     }
   }
 
-  static updateCanvas(levels, sizex, sizey) {
-    console.log(sizex, sizey);
-    let rowNb = this.getRowNb(levels);
-    console.log("rowNb = " + rowNb);
-    let height = rowNb * sizey + (rowNb + 1) * 20;
-    let width = 4 * sizex + 5 * 25;
-    return Canvas.createCanvas(width, height);
-  }
+  // static updateCanvas(levels, sizex, sizey) {
+  //   console.log(sizex, sizey);
+  //   let rowNb = this.getRowNb(levels);
+  //   console.log("rowNb = " + rowNb);
+  //   let height = sizey;
+  //   let width = sizex;
+  //   return Canvas.createCanvas(width, height);
+  // }
+  // static updateCanvas(levels, sizex, sizey) {
+  //   console.log(sizex, sizey);
+  //   let rowNb = this.getRowNb(levels);
+  //   console.log("rowNb = " + rowNb);
+  //   let height = rowNb * sizey + (rowNb + 1) * 20;
+  //   let width = 4 * sizex + 5 * 25;
+  //   return Canvas.createCanvas(width, height);
+  // }
 
   static getRowNb(levels) {
     return Math.ceil(levels.length / 4);
   }
 
-  static getImageWidth(levels) {
-    let rowNb = this.getRowNb(levels);
-    switch (rowNb) {
-      case 1:
-        return 1000;
-      // return 500;
-      case 2:
-        return 450;
-      case 3:
-        return 350;
-    }
+  static getImageWidth(levels, canvasX) {
+    let imagesnB = levels.length > 3 ? 4 : levels.length;
+    return canvasX / imagesnB;
   }
-  static getImageHeight(levels) {
+  // static getImageWidth(levels) {
+  //   let rowNb = this.getRowNb(levels);
+  //   switch (rowNb) {
+  //     case 1:
+  //       return 1000;
+  //     // return 500;
+  //     case 2:
+  //       return 450;
+  //     case 3:
+  //       return 350;
+  //   }
+  // }
+  //   static getImageHeight(levels) {
+  //     let rowNb = this.getRowNb(levels);
+  //     switch (rowNb) {
+  //       case 1:
+  //         // return 383;
+  //         return 800;
+  //       case 2:
+  //         return 345;
+  //       case 3:
+  //         return 268;
+  //     }
+  //   }
+  // };
+  static getImageHeight(levels, canvasY) {
     let rowNb = this.getRowNb(levels);
-    switch (rowNb) {
-      case 1:
-        // return 383;
-        return 800;
-      case 2:
-        return 345;
-      case 3:
-        return 268;
-    }
+    return canvasY / rowNb;
   }
 };

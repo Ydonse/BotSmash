@@ -14,13 +14,11 @@ module.exports = class Selector {
     let reponses;
     let allLevelsNb = levels.length;
     let levelsNbToBan = round === 1 ? [3, 4, 2] : [3, 6];
+    let canvasOriginX = 1500;
+    let canvasOriginY = 849;
+    let canvas = Canvas.createCanvas(canvasOriginX, canvasOriginY);
 
     while (levelsRemaining > 1) {
-      let canvas = CV.updateCanvas(
-        levels,
-        CV.getImageWidth(levels),
-        CV.getImageHeight(levels)
-      );
       console.log("canvas height = " + canvas.height);
       let attachment;
       userWanted = User.getUserWanted(users, round, levelsRemaining);
