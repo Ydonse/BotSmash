@@ -8,25 +8,32 @@ const { allStages, allImages, IMG } = require("./images");
 module.exports = class Selector {
   static async chooseStage(users, round, message) {
     //allows users to ban stages until the good one is chosen
-    let levels = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
-    let levelsRemaining = 9;
+    let levels = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+    let levelsRemaining = 10;
     let userWanted;
     let reponses;
+    let allLevelsNb = levels.length;
     let levelsNbToBan = round === 1 ? [3, 4, 1] : [3, 5];
-    const canvas = Canvas.createCanvas(1000, 700);
 
     while (levelsRemaining > 1) {
+      let canvas = CV.updateCanvas(
+        levels,
+        CV.getImageWidth(levels),
+        CV.getImageHeight(levels)
+      );
       let attachment;
       userWanted = User.getUserWanted(users, round, levelsRemaining);
-      if (levelsRemaining == 9) {
-        attachment = { files: [allStages] };
-      } else {
-        await CV.drawImages(IMG.getImages(), canvas, levelsRemaining, levels);
-        attachment = new Discord.MessageAttachment(
-          canvas.toBuffer(),
-          "Remaining_Stages.jpg"
-        );
-      }
+      await CV.drawImages(
+        IMG.getImages(),
+        canvas,
+        levelsRemaining,
+        levels,
+        allLevelsNb
+      );
+      attachment = new Discord.MessageAttachment(
+        canvas.toBuffer(),
+        "Remaining_Stages.jpg"
+      );
       await message.channel
         .send(MSG.getMessageToSend(userWanted, levelsNbToBan), attachment)
         .then(async () => {

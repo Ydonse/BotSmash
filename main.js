@@ -17,10 +17,8 @@ client.once("ready", async () => {
 });
 
 client.on("message", async (message) => {
-  const img = IMG.getImages();
-  img
-    ? Stage.parse(message)
-    : !message.author.bot && MSG.imagesLoading(message);
+  const img = await IMG.getImages();
+  Stage.parse(message);
 });
 
 // client.login(process.env.BOT_TOKEN);

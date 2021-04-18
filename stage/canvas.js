@@ -1,7 +1,15 @@
+const Canvas = require("canvas");
+
 module.exports = class DrawCanvas {
-  static async drawImages(images, canvas, levelsRemaining, levels) {
-    let sizex = 300;
-    let sizey = canvas.height / 3 - 25;
+  static async drawImages(
+    images,
+    canvas,
+    levelsRemaining,
+    levels,
+    allLevelsNb
+  ) {
+    let sizex = this.getImageWidth(levels);
+    let sizey = this.getImageHeight(levels);
     let espacementX = 25;
     let espacementY = 20;
     const ctx = canvas.getContext("2d");
@@ -20,9 +28,11 @@ module.exports = class DrawCanvas {
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     let index = 0;
-    for (let i = 0; i < 3; i++) {
-      for (let j = 0; j < 3; j++) {
-        // const imageIndex = i * j;
+    let posx = 0;
+    for (let i = 0; index < allLevelsNb; i++) {
+      console.log(i);
+      for (let j = 0; j < 4 && index < allLevelsNb; j++) {
+        console.log(`x = ${i}, j = ${j}, index = ${index}`);
         if (levels.includes((index + 1).toString())) {
           ctx.drawImage(
             images[index],
@@ -31,9 +41,46 @@ module.exports = class DrawCanvas {
             sizex,
             sizey
           );
+        } else {
+          j--;
         }
         index++;
       }
+    }
+  }
+
+  static updateCanvas(levels, sizex, sizey) {
+    let rowNb = this.getRowNb(levels);
+    console.log("rowNb = " + rowNb);
+    let height = rowNb * sizey + (rowNb + 1) * 20;
+    let width = 4 * sizex + 5 * 25;
+    return Canvas.createCanvas(width, height);
+  }
+
+  static getRowNb(levels) {
+    return Math.ceil(levels.length / 4);
+  }
+
+  static getImageWidth(levels) {
+    let rowNb = this.getRowNb(levels);
+    switch (rowNb) {
+      case 1:
+        return 500;
+      case 2:
+        return 450;
+      case 3:
+        return 350;
+    }
+  }
+  static getImageHeight(levels) {
+    let rowNb = this.getRowNb(levels);
+    switch (rowNb) {
+      case 1:
+        return 383;
+      case 2:
+        return 345;
+      case 3:
+        return 268;
     }
   }
 };

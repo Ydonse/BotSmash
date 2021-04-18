@@ -10,6 +10,7 @@ const allImages = {
   6: "./ressources/images/Yoshi.jpg",
   7: "./ressources/images/SP2.jpg",
   8: "./ressources/images/Lylat.jpg",
+  9: "./ressources/images/Cratere.jpg",
 };
 let images;
 const allStages = "./ressources/images/allStages.jpg";
