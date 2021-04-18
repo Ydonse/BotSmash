@@ -32,7 +32,7 @@ module.exports = class DrawCanvas {
     for (let i = 0; index < allLevelsNb; i++) {
       console.log(i);
       for (let j = 0; j < 4 && index < allLevelsNb; j++) {
-        console.log(`x = ${i}, j = ${j}, index = ${index}`);
+        // console.log(`x = ${i}, j = ${j}, index = ${index}`);
         if (levels.includes((index + 1).toString())) {
           ctx.drawImage(
             images[index],
@@ -50,6 +50,7 @@ module.exports = class DrawCanvas {
   }
 
   static updateCanvas(levels, sizex, sizey) {
+    console.log(sizex, sizey);
     let rowNb = this.getRowNb(levels);
     console.log("rowNb = " + rowNb);
     let height = rowNb * sizey + (rowNb + 1) * 20;
