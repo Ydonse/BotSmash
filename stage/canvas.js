@@ -65,7 +65,8 @@ module.exports = class DrawCanvas {
     let rowNb = this.getRowNb(levels);
     switch (rowNb) {
       case 1:
-        return 500;
+        return 1000;
+      // return 500;
       case 2:
         return 450;
       case 3:
@@ -76,7 +77,8 @@ module.exports = class DrawCanvas {
     let rowNb = this.getRowNb(levels);
     switch (rowNb) {
       case 1:
-        return 383;
+        // return 383;
+        return 800;
       case 2:
         return 345;
       case 3:

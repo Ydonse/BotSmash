@@ -13,7 +13,7 @@ module.exports = class Selector {
     let userWanted;
     let reponses;
     let allLevelsNb = levels.length;
-    let levelsNbToBan = round === 1 ? [3, 4, 1] : [3, 5];
+    let levelsNbToBan = round === 1 ? [3, 4, 2] : [3, 6];
 
     while (levelsRemaining > 1) {
       let canvas = CV.updateCanvas(
