@@ -13,6 +13,10 @@ module.exports = class Selector {
     let userWanted;
     let reponses;
     let allLevelsNb = levels.length;
+    let ratio = CV.getRatio(
+      IMG.getImages()[0].width,
+      IMG.getImages()[0].height
+    );
     let levelsNbToBan = round === 1 ? [3, 4, 2] : [3, 6];
     // console.log(
     //   `x = ${CV.getEspacementX() * 4}, y = ${
@@ -20,9 +24,7 @@ module.exports = class Selector {
     //   }`
     // );
     let canvasOriginX = IMG.getImages()[0].width * 4 + CV.getEspacementX() * 5;
-    let canvasOriginY =
-      canvasOriginX /
-      CV.getRatio(IMG.getImages()[0].width, IMG.getImages()[0].height);
+    let canvasOriginY = canvasOriginX / ratio;
     // let canvasOriginY = 849 + CV.getEspacementY() * (CV.getRowNb(levels) + 2);
     let canvas = Canvas.createCanvas(canvasOriginX, canvasOriginY);
 
@@ -36,7 +38,8 @@ module.exports = class Selector {
         canvas,
         levelsRemaining,
         levels,
-        allLevelsNb
+        allLevelsNb,
+        ratio
       );
       attachment = new Discord.MessageAttachment(
         canvas.toBuffer(),

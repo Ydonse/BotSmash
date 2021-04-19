@@ -9,10 +9,12 @@ module.exports = class DrawCanvas {
     canvas,
     levelsRemaining,
     levels,
-    allLevelsNb
+    allLevelsNb,
+    ratio
   ) {
     let sizex = this.getImageWidth(levels, canvas.width);
-    let sizey = this.getImageHeight(levels, canvas.height);
+    let sizey = sizex / ratio;
+    // let sizey = this.getImageHeight(levels, canvas.height);
     const ctx = canvas.getContext("2d");
 
     if (levelsRemaining == 1) {
