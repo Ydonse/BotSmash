@@ -41,10 +41,10 @@ module.exports = class DrawCanvas {
     });
   }
 
-  static setImage(element, index, ctx, sizex, sizey, images) {
-    console.log(`item = ${element}, index = ${index}`);
-    ctx.drawImage(images[index], this.getPosX(), this.getPosY(), sizex, sizey);
-  }
+  // static setImage(element, index, ctx, sizex, sizey, images) {
+  //   console.log(`item = ${element}, index = ${index}`);
+  //   ctx.drawImage(images[index], this.getPosX(), this.getPosY(), sizex, sizey);
+  // }
 
   static getPosX(index, espacementX, sizex) {
     return espacementX * ((index % 4) + 1) + sizex * (index % 4);
@@ -77,7 +77,7 @@ module.exports = class DrawCanvas {
 
   static getImageWidth(levels, canvasX) {
     let imagesNb = levels.length > 3 ? 4 : levels.length;
-    return canvasX / imagesNb - espacementX / (imagesNb + 1);
+    return canvasX / imagesNb - Math.round(espacementX / (imagesNb + 1));
   }
 
   static getImageHeight(levels, canvasY) {
