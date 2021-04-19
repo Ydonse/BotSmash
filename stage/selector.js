@@ -14,13 +14,13 @@ module.exports = class Selector {
     let reponses;
     let allLevelsNb = levels.length;
     let levelsNbToBan = round === 1 ? [3, 4, 2] : [3, 6];
-    console.log(
-      `x = ${CV.getEspacementX() * 4}, y = ${
-        CV.getEspacementY() * CV.getRowNb(levels)
-      }`
-    );
-    let canvasOriginX = 1500 + CV.getEspacementX() * 4;
-    let canvasOriginY = 849 + CV.getEspacementY() * CV.getRowNb(levels);
+    // console.log(
+    //   `x = ${CV.getEspacementX() * 4}, y = ${
+    //     CV.getEspacementY() * CV.getRowNb(levels)
+    //   }`
+    // );
+    let canvasOriginX = 1500 + CV.getEspacementX() * 5;
+    let canvasOriginY = 849 + CV.getEspacementY() * (CV.getRowNb(levels) + 1);
     let canvas = Canvas.createCanvas(canvasOriginX, canvasOriginY);
 
     while (levelsRemaining > 1) {
