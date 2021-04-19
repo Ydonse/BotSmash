@@ -54,14 +54,14 @@ module.exports = class DrawCanvas {
     return espacementY * (currentRow + 1) + sizey * currentRow;
   }
 
-  // static updateCanvas(levels, sizex, sizey) {
-  //   console.log(sizex, sizey);
-  //   let rowNb = this.getRowNb(levels);
-  //   console.log("rowNb = " + rowNb);
-  //   let height = sizey;
-  //   let width = sizex;
-  //   return Canvas.createCanvas(width, height);
-  // }
+  static updateCanvas(levels, sizex, sizey) {
+    console.log(sizex, sizey);
+    let rowNb = this.getRowNb(levels);
+    console.log("rowNb = " + rowNb);
+    let height = sizey;
+    let width = sizex;
+    return Canvas.createCanvas(width, height);
+  }
   // static updateCanvas(levels, sizex, sizey) {
   //   console.log(sizex, sizey);
   //   let rowNb = this.getRowNb(levels);
@@ -77,7 +77,7 @@ module.exports = class DrawCanvas {
 
   static getImageWidth(levels, canvasX) {
     let imagesNb = levels.length > 3 ? 4 : levels.length;
-    return canvasX / imagesNb - (25 + 5);
+    return canvasX / imagesNb - (espacementX + espacementX / 4);
   }
 
   static getImageHeight(levels, canvasY) {

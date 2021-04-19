@@ -20,13 +20,14 @@ module.exports = class Selector {
     //   }`
     // );
     let canvasOriginX = IMG.getImages()[0].width * 4 + CV.getEspacementX() * 5;
-    let canvasOriginY = 849 + CV.getEspacementY() * (CV.getRowNb(levels) + 1);
+    let canvasOriginY = 849 + CV.getEspacementY() * (CV.getRowNb(levels) + 2);
     let canvas = Canvas.createCanvas(canvasOriginX, canvasOriginY);
 
     while (levelsRemaining > 1) {
       console.log("canvas height = " + canvas.height);
       let attachment;
       userWanted = User.getUserWanted(users, round, levelsRemaining);
+      canvas = CV.updateCanvas();
       await CV.drawImages(
         IMG.getImages(),
         canvas,
