@@ -24,7 +24,7 @@ module.exports = class Selector {
     //   }`
     // );
     let canvasOriginX = IMG.getImages()[0].width * 4 + CV.getEspacementX() * 5;
-    let canvasOriginY = canvasOriginX / ratio;
+    let canvasOriginY = (IMG.getImages()[0].width * 4) / ratio;
     // let canvasOriginY = 849 + CV.getEspacementY() * (CV.getRowNb(levels) + 2);
     let canvas = Canvas.createCanvas(canvasOriginX, canvasOriginY);
 
