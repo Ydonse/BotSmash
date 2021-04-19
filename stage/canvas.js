@@ -64,7 +64,8 @@ module.exports = class DrawCanvas {
   }
 
   static getRatio(width, height) {
-    return Math.round(width / height);
+    console.log("ratio = " + width / height);
+    return width / height;
   }
   // static updateCanvas(levels, sizex, sizey) {
   //   console.log(sizex, sizey);
