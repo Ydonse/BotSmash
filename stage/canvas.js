@@ -76,8 +76,8 @@ module.exports = class DrawCanvas {
   }
 
   static getImageWidth(levels, canvasX) {
-    let imagesnB = levels.length > 3 ? 4 : levels.length;
-    return canvasX / imagesnB - imagesNb * espacementX;
+    let imagesNb = levels.length > 3 ? 4 : levels.length;
+    return canvasX / imagesNb - imagesNb * espacementX;
   }
 
   static getImageHeight(levels, canvasY) {
