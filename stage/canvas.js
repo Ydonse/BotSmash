@@ -27,26 +27,55 @@ module.exports = class DrawCanvas {
 
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    let index = 0;
-    let posx = 0;
-    for (let i = 0; index < allLevelsNb; i++) {
-      console.log(i);
-      for (let j = 0; j < 4 && index < allLevelsNb; j++) {
-        // console.log(`x = ${i}, j = ${j}, index = ${index}`);
-        if (levels.includes((index + 1).toString())) {
-          ctx.drawImage(
-            images[index],
-            espacementX * (j + 1) + sizex * j,
-            espacementY * (i + 1) + sizey * i,
-            sizex,
-            sizey
-          );
-        } else {
-          j--;
-        }
-        index++;
-      }
-    }
+
+    levels.forEach(function (item, index) {
+      console.log(`item = ${typeof item}, index = ${index}`);
+      ctx.drawImage(
+        images[0 + item - 1],
+        DrawCanvas.getPosX(index, espacementX, sizex),
+        DrawCanvas.getPosY(index, espacementY, levels, sizey),
+        sizex,
+        sizey
+      );
+    });
+
+    // let index = 0;
+    // for (let i = 0; index < allLevelsNb; i++) {
+    //   console.log(i);
+    //   for (let j = 0; j < 4 && index < allLevelsNb; j++) {
+    //     // console.log(`x = ${i}, j = ${j}, index = ${index}`);
+    //     if (levels.includes((index + 1).toString())) {
+    //       ctx.drawImage(
+    //         images[index],
+    //         espacementX * (j + 1) + sizex * j,
+    //         espacementY * (i + 1) + sizey * i,
+    //         sizex,
+    //         sizey
+    //       );
+    //     } else {
+    //       j--;
+    //     }
+    //     index++;
+    //   }
+    // }
+  }
+
+  static setImage(element, index, ctx, sizex, sizey, images) {
+    console.log(`item = ${element}, index = ${index}`);
+    ctx.drawImage(images[index], this.getPosX(), this.getPosY(), sizex, sizey);
+  }
+
+  static getPosX(index, espacementX, sizex) {
+    return espacementX * ((index % 4) + 1) + sizex * (index % 4);
+  }
+  static getPosY(index, espacementY, levels, sizey) {
+    // let rows = this.getRowNb(levels);
+    // let modulo = index % rows;
+    let currentRow = Math.floor(index / 4);
+    // if (modulo === 0) currentRow -= 1;
+    console.log("currentrow =" + currentRow);
+    // return espacementY * ((index % rows) + 1) + sizey * (index % rows);
+    return sizey * currentRow;
   }
 
   // static updateCanvas(levels, sizex, sizey) {
