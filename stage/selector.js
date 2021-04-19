@@ -27,7 +27,7 @@ module.exports = class Selector {
       console.log("canvas height = " + canvas.height);
       let attachment;
       userWanted = User.getUserWanted(users, round, levelsRemaining);
-      canvas = CV.updateCanvas();
+      // canvas = CV.updateCanvas();
       await CV.drawImages(
         IMG.getImages(),
         canvas,
