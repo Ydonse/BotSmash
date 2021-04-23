@@ -49,11 +49,11 @@ module.exports = class MSG {
     )
       language = "fr";
     else language = "en";
-    const text = localisation[langage].finalStage
-      .replace("{${user1}", users[0])
-      .replace("{${user2}", users[1]);
+    const text = localisation[language].finalStage
+      .replace("${user1}", users[0])
+      .replace("${user2}", users[1]);
     message.channel
-      .send(texte, {
+      .send(text, {
         files: [allImages[levels[0] - 1]],
       })
       .catch((error) => {

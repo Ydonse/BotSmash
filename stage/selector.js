@@ -10,7 +10,7 @@ module.exports = class Selector {
     //allows users to ban stages until the good one is chosen
     let levels = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
     let levelsRemaining = 10;
-    let userWanted;
+    let userWanted = users[0];
     let reponses;
     let allLevelsNb = levels.length;
     let ratio = CV.getRatio(
@@ -27,11 +27,11 @@ module.exports = class Selector {
     let canvasOriginY = (IMG.getImages()[0].width * 4) / ratio;
     // let canvasOriginY = 849 + CV.getEspacementY() * (CV.getRowNb(levels) + 2);
     let canvas = Canvas.createCanvas(canvasOriginX, canvasOriginY);
+    canvas.area = CV.calculateArea(canvas.width, canvas.height);
 
     while (levelsRemaining > 1) {
       console.log("canvas height = " + canvas.height);
       let attachment;
-      userWanted = User.getUserWanted(users, round, levelsRemaining);
       // canvas = CV.updateCanvas();
       await CV.drawImages(
         IMG.getImages(),
@@ -58,7 +58,10 @@ module.exports = class Selector {
               levels = levels.filter((word) => !reponses.includes(word));
               levelsRemaining = levels.length;
               levelsNbToBan[0] -= reponses.length;
-              if (levelsNbToBan[0] == 0) levelsNbToBan.shift();
+              if (levelsNbToBan[0] == 0) {
+                levelsNbToBan.shift();
+                userWanted = User.switchUser(users, userWanted);
+              }
             })
             .catch((error) => {
               message.channel.send(`${users[0]} ${users[1]} timeout`);

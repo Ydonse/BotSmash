@@ -12,8 +12,6 @@ module.exports = class DrawCanvas {
     allLevelsNb,
     ratio
   ) {
-    let sizex = this.getImageWidth(levels, canvas.width);
-    let sizey = sizex / ratio;
     // let sizey = this.getImageHeight(levels, canvas.height);
     const ctx = canvas.getContext("2d");
 
@@ -30,13 +28,29 @@ module.exports = class DrawCanvas {
 
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+    canvas.area = this.calculateArea(canvas.width, canvas.height);
+    const imageArea = canvas.area / levels.length;
+    let sizex = this.getImageWidth(imageArea, ratio, canvas);
+    console.log("nombre de colonnes = " + canvas.width / sizex);
+
+    let sizey = this.getImageHeight(canvas, sizex, ratio);
+    sizex = sizey * ratio;
+    let columns = Math.floor(canvas.width / sizex);
+    console.log("nombre de lignes = " + canvas.height / sizey);
+    espacementX = this.calculateEspacementX(canvas.width, sizex, columns);
+    espacementY = this.calculateEspacementY(
+      canvas.height,
+      sizey,
+      levels,
+      columns
+    );
 
     levels.forEach(function (item, index) {
-      console.log(`item = ${typeof item}, index = ${index}`);
+      // console.log(`item = ${typeof item}, index = ${index}`);
       ctx.drawImage(
         images[0 + item - 1],
-        DrawCanvas.getPosX(index, espacementX, sizex),
-        DrawCanvas.getPosY(index, espacementY, levels, sizey),
+        DrawCanvas.getPosX(index, espacementX, sizex, canvas, columns),
+        DrawCanvas.getPosY(index, sizey, columns, espacementY),
         sizex,
         sizey
       );
@@ -48,48 +62,55 @@ module.exports = class DrawCanvas {
   //   ctx.drawImage(images[index], this.getPosX(), this.getPosY(), sizex, sizey);
   // }
 
-  static getPosX(index, espacementX, sizex) {
-    return espacementX * ((index % 4) + 1) + sizex * (index % 4);
+  static getPosX(index, espacementX, sizex, canvas, columns) {
+    let modulo = (index + 1) % columns;
+    modulo = modulo === 0 ? columns : modulo;
+    let spacing = espacementX * modulo;
+    let pos = spacing + sizex * (index % columns);
+    // let pos = sizex * (index % columns);
+    return pos;
   }
-  static getPosY(index, espacementY, levels, sizey) {
-    let currentRow = Math.floor(index / 4);
+  static getPosY(index, sizey, columns, espacementY) {
+    let currentRow = Math.floor(index / columns);
     return espacementY * (currentRow + 1) + sizey * currentRow;
   }
 
-  static updateCanvas(levels, sizex, sizey) {
-    console.log(sizex, sizey);
-    let rowNb = this.getRowNb(levels);
-    console.log("rowNb = " + rowNb);
-    let height = sizey;
-    let width = sizex;
-    return Canvas.createCanvas(width, height);
-  }
-
   static getRatio(width, height) {
-    console.log("ratio = " + width / height);
+    // console.log("ratio = " + width / height);
     return width / height;
   }
-  // static updateCanvas(levels, sizex, sizey) {
-  //   console.log(sizex, sizey);
-  //   let rowNb = this.getRowNb(levels);
-  //   console.log("rowNb = " + rowNb);
-  //   let height = rowNb * sizey + (rowNb + 1) * 20;
-  //   let width = 4 * sizex + 5 * 25;
-  //   return Canvas.createCanvas(width, height);
-  // }
 
-  static getRowNb(levels) {
-    return Math.ceil(levels.length / 4);
+  static getRowNb(canvasHeight, imageHeight) {
+    return canvasHeight / imageHeight;
   }
 
-  static getImageWidth(levels, canvasX) {
-    let imagesNb = levels.length > 3 ? 4 : levels.length;
-    return canvasX / imagesNb - (espacementX + espacementX / 4);
+  static getImageWidth(imageArea, ratio, canvas) {
+    let sizex = Math.sqrt(imageArea * ratio);
+    let columns = Math.ceil(canvas.width / sizex);
+    sizex = canvas.width / columns;
+    return sizex;
   }
-
-  static getImageHeight(levels, canvasY) {
-    let rowNb = this.getRowNb(levels);
-    return canvasY / rowNb;
+  static getImageHeight(canvas, sizex, ratio) {
+    let sizeY = sizex / ratio;
+    let rows = Math.ceil(this.getRowNb(canvas.height, sizeY));
+    sizeY = canvas.height / rows;
+    // console.log("\x1b[33m%s\x1b[0m", `vrai lignes = ${rows}`);
+    return sizeY;
+  }
+  static calculateEspacementX(canvasWidth, imageWidth) {
+    let columns = Math.floor(canvasWidth / imageWidth);
+    let fullSpace = canvasWidth % (imageWidth * columns);
+    let space = fullSpace / (columns + 1);
+    return space;
+  }
+  static calculateEspacementY(canvasHeight, imageHeight, level, columns) {
+    let rows = Math.ceil(level.length / columns);
+    console.log("rows = " + rows);
+    let fullSpace = canvasHeight % (imageHeight * rows);
+    console.log("fullspace = " + fullSpace);
+    let space = fullSpace / (rows + 1);
+    console.log("space = " + space);
+    return space;
   }
 
   static getEspacementX() {
@@ -97,5 +118,8 @@ module.exports = class DrawCanvas {
   }
   static getEspacementY() {
     return espacementY;
+  }
+  static calculateArea(width, height) {
+    return width * height;
   }
 };

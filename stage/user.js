@@ -12,6 +12,10 @@ module.exports = class User {
     const id = matches[1];
     return client.users.cache.get(id);
   }
+  static switchUser(users, userWanted) {
+    if (userWanted === users[0]) return users[1];
+    return users[0];
+  }
 
   static getUserWanted(users, tour, levelsRemaining) {
     //return user whose answer is awaited
