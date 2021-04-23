@@ -14,6 +14,9 @@ client.once("ready", async () => {
   await IMG.loadImages().catch((error) => {
     console.error(error);
   });
+  await IMG.loadBackground().catch((error) => {
+    console.log(error);
+  });
 });
 
 client.on("message", async (message) => {

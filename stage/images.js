@@ -13,7 +13,9 @@ const allImages = {
   9: "./ressources/images/Cratere.jpg",
 };
 let images;
+let background;
 const allStages = "./ressources/images/allStages.jpg";
+const background_img = "./ressources/images/background.jpg";
 
 class IMG {
   static async loadImages() {
@@ -26,8 +28,15 @@ class IMG {
       .then(console.log("bot ready"));
   }
 
+  static async loadBackground() {
+    background = await Canvas.loadImage(background_img);
+  }
+
   static getImages() {
     return images;
+  }
+  static getBackground() {
+    return background;
   }
 }
 

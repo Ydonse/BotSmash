@@ -2,43 +2,30 @@ const User = require("./user");
 const CV = require("./canvas");
 const Discord = require("discord.js");
 const MSG = require("./messages");
-const Canvas = require("canvas");
-const { allStages, allImages, IMG } = require("./images");
+const { allImages, IMG } = require("./images");
 
 module.exports = class Selector {
   static async chooseStage(users, round, message) {
     //allows users to ban stages until the good one is chosen
     let levels = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
-    let levelsRemaining = 10;
+    let levelsRemaining = levels.length;
     let userWanted = users[0];
     let reponses;
-    let allLevelsNb = levels.length;
     let ratio = CV.getRatio(
       IMG.getImages()[0].width,
       IMG.getImages()[0].height
     );
     let levelsNbToBan = round === 1 ? [3, 4, 2] : [3, 6];
-    // console.log(
-    //   `x = ${CV.getEspacementX() * 4}, y = ${
-    //     CV.getEspacementY() * CV.getRowNb(levels)
-    //   }`
-    // );
-    let canvasOriginX = IMG.getImages()[0].width * 4 + CV.getEspacementX() * 5;
-    let canvasOriginY = (IMG.getImages()[0].width * 4) / ratio;
-    // let canvasOriginY = 849 + CV.getEspacementY() * (CV.getRowNb(levels) + 2);
-    let canvas = Canvas.createCanvas(canvasOriginX, canvasOriginY);
+    let canvas = CV.createFullCanvas(IMG.getImages()[0].width, ratio);
     canvas.area = CV.calculateArea(canvas.width, canvas.height);
 
     while (levelsRemaining > 1) {
-      console.log("canvas height = " + canvas.height);
       let attachment;
-      // canvas = CV.updateCanvas();
       await CV.drawImages(
         IMG.getImages(),
         canvas,
         levelsRemaining,
         levels,
-        allLevelsNb,
         ratio
       );
       attachment = new Discord.MessageAttachment(
