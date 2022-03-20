@@ -11,7 +11,7 @@ client.once("ready", async () => {
   client.guilds.cache.forEach((guild) => {
     console.log("\x1b[33m%s\x1b[0m", `${guild.name}`);
   });
-  client.user.setActivity("!banstage", { type: "PLAYING" });
+  client.user.setActivity("!bs", { type: "PLAYING" });
   await IMG.loadImages().catch((error) => {
     console.error(error);
   });

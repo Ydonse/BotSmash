@@ -11,7 +11,7 @@ Ce bot Discord dédié aux tournois Super Smash Bros Ultimate permet à deux uti
 
 ## Comment utiliser ce bot
 1) Ajouter le bot à votre serveur : https://discord.com/api/oauth2/authorize?client_id=812766924329058344&permissions=120832&scope=bot
-2) Taper la commande ```!banstage @participant1 @participant2``` pour lancer le choix du stage. En cas de match retour, écrire "tour2" ou "2" après les participants
+2) Taper la commande ```!bs @participant1 @participant2``` pour lancer le choix du stage. En cas de match retour, écrire "tour2" ou "2" après les participants
  3) Il est possible de bannir les terrains un par un ou d'en bannir plusieurs en une fois. Il suffit d'envoyer le ou les numéros désirés. ex "2 6 9"
  
  
