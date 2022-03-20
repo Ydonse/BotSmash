@@ -1,6 +1,6 @@
 require("dotenv").config();
 const prefix = process.env.PREFIX;
-const cmdName = "banstage";
+const cmdName = process.env.CMDBAN;
 const localisation = {
   fr: {
     banLast: "${userWanted} **Bannis le dernier stage**",
