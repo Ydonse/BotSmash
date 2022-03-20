@@ -30,8 +30,8 @@ module.exports = class User {
   }
 
   static checkUsersNb(message) {
-    //check if 2 users has been taged
-    return message.mentions.users.size === 2;
+    //check if 1 user has been taged
+    return message.mentions.users.size === 1;
   }
 
   static areUsersValid(message, users, currentUsers) {

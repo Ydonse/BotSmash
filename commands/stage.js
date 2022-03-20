@@ -18,7 +18,7 @@ module.exports = class Stage extends Command {
       .slice(prefix.length + cmdName.length)
       .trim()
       .split(/ +/);
-    let users = [User.fromMention(args[0]), User.fromMention(args[1])];
+    let users = [User.fromMention(args[0]), message.author];
     if (!this.validateCommand(message, users)) return;
     currentUsers.push(users[0], users[1]);
     await Selector.chooseStage(

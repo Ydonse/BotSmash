@@ -25,7 +25,7 @@ const localisation = {
 module.exports = class MSG {
   static usage(message) {
     message.reply(
-      `usage : \`${prefix}${cmdName} @participant1 @participant2 [option : tour2]\`\n For any questions ask Steyo`
+      `usage : \`${prefix}${cmdName} @adversaire [option : tour2]\`\n For any questions ask Steyo`
     );
   }
   static getMessageToSend(userWanted, levelsNbToBan) {
