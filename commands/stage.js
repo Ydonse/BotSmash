@@ -4,7 +4,7 @@ const User = require("../stage/user");
 const Selector = require("../stage/selector");
 const Msg = require("../stage/messages");
 const prefix = process.env.PREFIX;
-const cmdName = process.env.CMDBAN;
+const cmdName = "banstage";
 let currentUsers = [];
 
 module.exports = class Stage extends Command {
