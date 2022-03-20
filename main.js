@@ -7,6 +7,7 @@ const token = process.env.TOKEN;
 
 client.once("ready", async () => {
   console.log("Nb de serveurs utilisant le bot : " + client.guilds.cache.size);
+  //parsing
   client.guilds.cache.forEach((guild) => {
     console.log("\x1b[33m%s\x1b[0m", `${guild.name}`);
   });
