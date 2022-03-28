@@ -18,7 +18,7 @@ module.exports = class Stage extends Command {
       .slice(prefix.length + cmdName.length)
       .trim()
       .split(/ +/);
-    let users = [User.fromMention(args[0]), message.author];
+    let users = [ message.author, User.fromMention(args[0])];
     if (!this.validateCommand(message, users)) return;
     currentUsers.push(users[0], users[1]);
     await Selector.chooseStage(
@@ -47,7 +47,7 @@ module.exports = class Stage extends Command {
   static getRound(args) {
     //returns round of the match
     if (
-      args.length > 2 &&
+      args.length > 1 &&
       ["2", "3", "tour2", "tour3"].includes(args[2].toLowerCase())
     )
       return 2;
