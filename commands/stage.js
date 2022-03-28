@@ -67,7 +67,6 @@ module.exports = class Stage extends Command {
 
   static getRandomInt(max) {
     let nb = Math.floor(Math.random() * max);
-    console.log(nb);
     return nb;
   }
 };

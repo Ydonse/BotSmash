@@ -3,6 +3,7 @@ const prefix = process.env.PREFIX;
 const cmdName = process.env.CMDBAN;
 const localisation = {
   fr: {
+    choose: "${userWanted} **Choisis ton stage parmi ceux restants**",
     banLast: "${userWanted} **Bannis le dernier stage**",
     ban:
       "${userWanted} **Envoie le/les numero du stage que tu veux bannir, ${remaining} restants**",
@@ -12,6 +13,7 @@ const localisation = {
     occupied: "${user} est déja en train de choisir un terrain",
   },
   en: {
+    choose: "${userWanted} **choose your stage among the remaining ones**",
     banLast: "${userWanted} **Ban the last stage**",
     ban:
       "${userWanted} **Send the stage's number/s you want to ban, ${remaining} left**",
@@ -25,16 +27,18 @@ const localisation = {
 module.exports = class MSG {
   static usage(message) {
     message.reply(
-      `usage : \`${prefix}${cmdName} @adversaire [option : tour2]\`\n For any questions ask Steyo`
+      `usage : \`${prefix}${cmdName} @adversaire [option : random, tour2]\`\n For any questions ask Steyo`
     );
   }
   static getMessageToSend(userWanted, levelsNbToBan) {
     let language = this.checkLanguage(userWanted);
-    if (levelsNbToBan[0] == 1 && levelsNbToBan.length == 1)
-      return localisation[language].banLast.replace(
+    if(levelsNbToBan.length == 1)
+    {
+      return localisation[language].choose.replace(
         "${userWanted}",
         userWanted
       );
+    }
     else
       return localisation[language].ban
         .replace("${userWanted}", userWanted)

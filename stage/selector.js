@@ -41,14 +41,26 @@ module.exports = class Selector {
               { max: 1, time: 60000, errors: ["time"] }
             )
             .then((collected) => {
+              
               reponses = this.filterStageNumbers(collected, levelsNbToBan);
               levels = levels.filter((word) => !reponses.includes(word));
-              levelsRemaining = levels.length;
-              levelsNbToBan[0] -= reponses.length;
-              if (levelsNbToBan[0] == 0) {
-                levelsNbToBan.shift();
-                userWanted = User.switchUser(users, userWanted);
+
+              if(levelsNbToBan.length === 1)
+              {
+                levelsRemaining = 1;
+                levels = [reponses[0]];
               }
+              else
+              {
+                levelsRemaining = levels.length;
+                levelsNbToBan[0] -= reponses.length;
+                if (levelsNbToBan[0] == 0) {
+                  levelsNbToBan.shift();
+                  userWanted = User.switchUser(users, userWanted);
+                }
+              }
+
+              
             })
             .catch((error) => {
               message.channel.send(`${users[0]} ${users[1]} timeout`);
@@ -82,4 +94,6 @@ module.exports = class Selector {
       reponses.splice(levelsNbToBan[0], reponses.length - levelsNbToBan[0]);
     return reponses;
   }
+
+ 
 };
