@@ -18,7 +18,9 @@ module.exports = class Stage extends Command {
       .slice(prefix.length + cmdName.length)
       .trim()
       .split(/ +/);
-    let users = [ message.author, User.fromMention(args[0])];
+    let opponent = User.fromMention(args[0]);
+    let usersConfig = [[ message.author, opponent], [opponent, message.author]];
+    let users = usersConfig[this.isRandom(args)];
     if (!this.validateCommand(message, users)) return;
     currentUsers.push(users[0], users[1]);
     await Selector.chooseStage(
@@ -48,9 +50,24 @@ module.exports = class Stage extends Command {
     //returns round of the match
     if (
       args.length > 1 &&
-      ["2", "3", "tour2", "tour3"].includes(args[2].toLowerCase())
+      ["2", "3", "tour2", "tour3"].includes(args[1].toLowerCase())
     )
       return 2;
     return 1;
+  }
+
+  static isRandom(args) {
+    if (
+      args.length > 1 &&
+      ["random"].includes(args[1].toLowerCase())
+    )
+      return this.getRandomInt(2);
+    return 0;
+  }
+
+  static getRandomInt(max) {
+    let nb = Math.floor(Math.random() * max);
+    console.log(nb);
+    return nb;
   }
 };

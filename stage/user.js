@@ -51,4 +51,8 @@ module.exports = class User {
     }
     return true;
   }
+
+  static getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
 };
