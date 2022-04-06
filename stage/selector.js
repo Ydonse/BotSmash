@@ -15,7 +15,7 @@ module.exports = class Selector {
       IMG.getImages()[0].width,
       IMG.getImages()[0].height
     );
-    let levelsNbToBan = round === 1 ? [3, 4, 2] : [3, 6];
+    let levelsNbToBan = round === 1 ? [3, 4, 1] : [3, 5];
     let canvas = CV.createFullCanvas(IMG.getImages()[0].width, ratio);
     canvas.area = CV.calculateArea(canvas.width, canvas.height);
 
