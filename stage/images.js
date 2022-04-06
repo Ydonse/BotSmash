@@ -11,6 +11,7 @@ const allImages = {
   7: "./ressources/images/SP2.jpg",
   8: "./ressources/images/Lylat.jpg",
   9: "./ressources/images/Cratere.jpg",
+  10: "./ressources/images/HB.jpg",
 };
 let images;
 let background;

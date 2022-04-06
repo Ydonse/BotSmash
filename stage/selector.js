@@ -7,7 +7,7 @@ const { allImages, IMG } = require("./images");
 module.exports = class Selector {
   static async chooseStage(users, round, message) {
     //allows users to ban stages until the good one is chosen
-    let levels = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+    let levels = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"];
     let levelsRemaining = levels.length;
     let userWanted = users[0];
     let reponses;
@@ -15,7 +15,7 @@ module.exports = class Selector {
       IMG.getImages()[0].width,
       IMG.getImages()[0].height
     );
-    let levelsNbToBan = round === 1 ? [3, 4, 1] : [3, 5];
+    let levelsNbToBan = round === 1 ? [3, 5, 2] : [4, 5];
     let canvas = CV.createFullCanvas(IMG.getImages()[0].width, ratio);
     canvas.area = CV.calculateArea(canvas.width, canvas.height);
 
@@ -97,7 +97,7 @@ module.exports = class Selector {
 
   static async displayAll(message)
   {
-    let levels = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
+    let levels = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"];
     let levelsRemaining = levels.length;
     let ratio = CV.getRatio(
       IMG.getImages()[0].width,
