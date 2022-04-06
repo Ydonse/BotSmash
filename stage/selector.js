@@ -95,5 +95,32 @@ module.exports = class Selector {
     return reponses;
   }
 
+  static async displayAll(message)
+  {
+    let levels = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
+    let levelsRemaining = levels.length;
+    let ratio = CV.getRatio(
+      IMG.getImages()[0].width,
+      IMG.getImages()[0].height
+    );
+    let canvas = CV.createFullCanvas(IMG.getImages()[0].width, ratio);
+    canvas.area = CV.calculateArea(canvas.width, canvas.height);
+
+    let attachment;
+      await CV.drawImages(
+        IMG.getImages(),
+        canvas,
+        levelsRemaining,
+        levels,
+        ratio
+      );
+      attachment = new Discord.MessageAttachment(
+        canvas.toBuffer(),
+        "allStages.jpg"
+      );
+      await message.channel
+        .send("**all stages avalaible**", attachment);
+  }
+
  
 };

@@ -18,6 +18,11 @@ module.exports = class Stage extends Command {
       .slice(prefix.length + cmdName.length)
       .trim()
       .split(/ +/);
+    if(args[0] == "all")
+    {
+      Selector.displayAll(message);
+      return;
+    }
     let opponent = User.fromMention(args[0]);
     let usersConfig = [[ message.author, opponent], [opponent, message.author]];
     let users = usersConfig[this.isRandom(args)];
